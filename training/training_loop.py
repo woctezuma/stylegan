@@ -135,7 +135,7 @@ def training_loop(
     save_weight_histograms  = False,    # Include weight histograms in the tfevents file?
     resume_run_id           = 'results/00002-sgan-steam-1gpu',  # Run ID or network pkl to resume training from, None = start from scratch.
     resume_snapshot         = None,     # Snapshot index to resume training from, None = autodetect.
-    resume_kimg             = 0.0,      # Assumed training progress at the beginning. Affects reporting and training schedule.
+    resume_kimg             = 1283.0,      # Assumed training progress at the beginning. Affects reporting and training schedule.
     resume_time             = 0.0):     # Assumed wallclock time at the beginning. Affects reporting.
 
     # Initialize dnnlib and TensorFlow.
