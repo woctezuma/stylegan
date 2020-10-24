@@ -28,8 +28,7 @@ def G_wgan(G, D, opt, training_set, minibatch_size): # pylint: disable=unused-ar
     labels = training_set.get_random_labels_tf(minibatch_size)
     fake_images_out = G.get_output_for(latents, labels, is_training=True)
     fake_scores_out = fp32(D.get_output_for(fake_images_out, labels, is_training=True))
-    loss = -fake_scores_out
-    return loss
+    return -fake_scores_out
 
 def D_wgan(G, D, opt, training_set, minibatch_size, reals, labels, # pylint: disable=unused-argument
     wgan_epsilon = 0.001): # Weight for the epsilon term, \epsilon_{drift}.
@@ -87,8 +86,7 @@ def D_hinge(G, D, opt, training_set, minibatch_size, reals, labels): # pylint: d
     fake_scores_out = fp32(D.get_output_for(fake_images_out, labels, is_training=True))
     real_scores_out = autosummary('Loss/scores/real', real_scores_out)
     fake_scores_out = autosummary('Loss/scores/fake', fake_scores_out)
-    loss = tf.maximum(0., 1.+fake_scores_out) + tf.maximum(0., 1.-real_scores_out)
-    return loss
+    return tf.maximum(0., 1.+fake_scores_out) + tf.maximum(0., 1.-real_scores_out)
 
 def D_hinge_gp(G, D, opt, training_set, minibatch_size, reals, labels, # pylint: disable=unused-argument
     wgan_lambda     = 10.0,     # Weight for the gradient penalty term.

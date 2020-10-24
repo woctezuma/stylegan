@@ -59,9 +59,9 @@ class TFRecordDataset:
         self._tf_minibatch_in   = None
         self._tf_labels_var     = None
         self._tf_labels_dataset = None
-        self._tf_datasets       = dict()
+        self._tf_datasets = {}
         self._tf_iterator       = None
-        self._tf_init_ops       = dict()
+        self._tf_init_ops = {}
         self._tf_minibatch_np   = None
         self._cur_minibatch     = -1
         self._cur_lod           = -1

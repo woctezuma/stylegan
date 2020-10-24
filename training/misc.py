@@ -47,7 +47,7 @@ def adjust_dynamic_range(data, drange_in, drange_out):
     return data
 
 def create_image_grid(images, grid_size=None):
-    assert images.ndim == 3 or images.ndim == 4
+    assert images.ndim in [3, 4]
     num, img_w, img_h = images.shape[0], images.shape[-1], images.shape[-2]
 
     if grid_size is not None:
@@ -199,11 +199,12 @@ def setup_snapshot_image_grid(G, training_set,
     layout  = 'random'):    # 'random' = grid contents are selected randomly, 'row_per_class' = each row corresponds to one class label.
 
     # Select size.
-    gw = 1; gh = 1
+    gw = 1
+    gh = 1
     if size == '1080p':
         gw = np.clip(1920 // G.output_shape[3], 3, 32)
         gh = np.clip(1080 // G.output_shape[2], 2, 32)
-    if size == '4k':
+    elif size == '4k':
         gw = np.clip(3840 // G.output_shape[3], 7, 32)
         gh = np.clip(2160 // G.output_shape[2], 4, 32)
 

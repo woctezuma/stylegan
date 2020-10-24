@@ -155,17 +155,19 @@ def finalize_autosummaries() -> None:
     for cat_name, chart_dict in cat_dict.items():
         charts = []
         for chart_name, series_names in chart_dict.items():
-            series = []
-            for series_name in series_names:
-                series.append(layout_pb2.MarginChartContent.Series(
+            series = [
+                layout_pb2.MarginChartContent.Series(
                     value=series_name,
                     lower="xCustomScalars/" + series_name + "/margin_lo",
-                    upper="xCustomScalars/" + series_name + "/margin_hi"))
+                    upper="xCustomScalars/" + series_name + "/margin_hi",
+                )
+                for series_name in series_names
+            ]
+
             margin = layout_pb2.MarginChartContent(series=series)
             charts.append(layout_pb2.Chart(title=chart_name, margin=margin))
         categories.append(layout_pb2.Category(title=cat_name, chart=charts))
-    layout = summary_lib.custom_scalar_pb(layout_pb2.Layout(category=categories))
-    return layout
+    return summary_lib.custom_scalar_pb(layout_pb2.Layout(category=categories))
 
 def save_summaries(file_writer, global_step=None):
     """Call FileWriter.add_summary() with all summaries in the default graph,

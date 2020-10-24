@@ -107,8 +107,6 @@ class Optimizer:
         devices = list(self._dev_grads.keys())
         total_grads = sum(len(grads) for grads in self._dev_grads.values())
         assert len(devices) >= 1 and total_grads >= 1
-        ops = []
-
         with tfutil.absolute_name_scope(self.scope):
             # Cast gradients to FP32 and calculate partial sum within each device.
             dev_grads = OrderedDict()  # device => [(grad, var), ...]
@@ -136,6 +134,8 @@ class Optimizer:
 
                         for dev, gg in zip(devices, g):
                             dev_grads[dev][var_idx] = (gg, dev_grads[dev][var_idx][1])
+
+            ops = []
 
             # Apply updates separately on each device.
             for dev_idx, (dev, grads) in enumerate(dev_grads.items()):

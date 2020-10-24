@@ -175,7 +175,7 @@ def upscale2d_conv2d(x, fmaps, kernel, fused_scale='auto', **kwargs):
     assert kernel >= 1 and kernel % 2 == 1
     assert fused_scale in [True, False, 'auto']
     if fused_scale == 'auto':
-        fused_scale = min(x.shape[2:]) * 2 >= 128
+        fused_scale = min(x.shape[2:]) >= 64
 
     # Not fused => call the individual ops directly.
     if not fused_scale:

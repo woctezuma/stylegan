@@ -130,8 +130,7 @@ def get_template_from_path(path: str) -> str:
 def convert_path(path: str, path_type: PathType = PathType.AUTO) -> str:
     """Convert a normal path to template and the convert it back to a normal path with given path type."""
     path_template = get_template_from_path(path)
-    path = get_path_from_template(path_template, path_type)
-    return path
+    return get_path_from_template(path_template, path_type)
 
 
 def set_user_name_override(name: str) -> None:
@@ -283,8 +282,9 @@ def submit_run(submit_config: SubmitConfig, run_func_name: str, **run_func_kwarg
         pprint.pprint(submit_config, indent=4, width=200, compact=False)
         print()
 
-    if submit_config.ask_confirmation:
-        if not util.ask_yes_no("Continue submitting the job?"):
-            return
+    if submit_config.ask_confirmation and not util.ask_yes_no(
+        "Continue submitting the job?"
+    ):
+        return
 
     run_wrapper(submit_config)
